@@ -1,6 +1,6 @@
-import Product from '../Models/Product';
+const Product = require('../Models/Product');
 
-export const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({});
     res.json(products);
@@ -8,3 +8,5 @@ export const getAllProducts = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch products' });
   }
 };
+
+module.exports = { getAllProducts };
