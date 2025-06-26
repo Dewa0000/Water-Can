@@ -1,7 +1,8 @@
-import express from 'express';
-import { getAllProducts } from '../Controllers/productController';
-
+const express = require('express');
 const router = express.Router();
-router.get('/', getAllProducts);
 
-export default router;
+router.get('/', (req, res) => {
+  res.json([{ name: '20L Can', price: 40 }]);
+});
+
+module.exports = router;
