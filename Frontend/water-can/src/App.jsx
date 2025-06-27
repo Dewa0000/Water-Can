@@ -1,29 +1,45 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Products from './pages/Products';
-import Cart from './pages/Cart';
-import Checkout from './pages/Checkout';
-import Success from './pages/Success';
-import NotFound from './pages/NotFound';
+import { CartProvider } from '../src/Context/CartContext';
+import Home from '../src/Pages/Home';
+import ProductsPage from '../src/Pages/Products';
+import Cart from '../src/Pages/Cart';
+import CheckoutPage from '../src/Pages/Checkout';
 import ThankYouPage from '../src/Pages/ThankYouPage';
+import NotFound from '../src/Pages/NotFound';
+import ServicesPage from '../src/Components/Services';
+import ContactPage from '../src/Pages/Contact';
+import SubscriptionPage from '../src/Pages/Subscription';
 import Navbar from '../src/Components/Navbar';
 import Footer from '../src/Components/Footer';
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
-        <Route path="/success" element={<Success />} />
-        <Route path="/thank-you" element={<ThankYouPage />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <CartProvider>
+      <Router>
+        <div
+          className="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
+          style={{ fontFamily: '"Plus Jakarta Sans", "Noto Sans", sans-serif' }}
+        >
+          <div className="layout-container flex h-full grow flex-col">
+            <Navbar />
+            <main className="flex flex-1 flex-col">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/products" element={<ProductsPage />} />
+                <Route path="/subscription" element={<SubscriptionPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/thank-you" element={<ThankYouPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </div>
+      </Router>
+    </CartProvider>
   );
 }
 
