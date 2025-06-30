@@ -13,7 +13,6 @@ function Cart() {
       style={{ fontFamily: '"Plus Jakarta Sans", "Noto Sans", sans-serif' }}
     >
       <div className="layout-container flex h-full grow flex-col">
-        <Navbar />
         <div className="px-6 md:px-40 flex flex-1 justify-center py-5">
           <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
             <div className="flex flex-wrap justify-between gap-3 p-4">
@@ -66,7 +65,6 @@ function Cart() {
             )}
           </div>
         </div>
-        <Footer />
       </div>
     </div>
   );

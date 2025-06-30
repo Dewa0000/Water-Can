@@ -107,7 +107,7 @@ function Navbar() {
             <span className="truncate">Order Now</span>
           </NavLink>
           <NavLink
-            to="/checkout"
+            to="/cart"
             className="relative flex items-center justify-center h-10 w-10 rounded-full bg-[#f0f3f4] text-[#121516] hover:bg-blue-600 hover:text-white transition"
             aria-label={`View cart with ${totalItems} items`}
           >

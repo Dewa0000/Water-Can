@@ -1,6 +1,8 @@
 import React from 'react';
 import Navbar from '../Components/Footer'; // From previous response
 import Footer from '../Components/Navbar'; // From previous response
+import { Link } from 'react-router-dom';
+import ContactPage from '../Pages/Contact';
 
 const services = [
   {
@@ -96,6 +98,8 @@ const faqs = [
 ];
 
 function ServicesPage() {
+
+
   return (
     <div
       className="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
@@ -208,9 +212,9 @@ function ServicesPage() {
             </div>
 
             {/* Contact Button */}
-            <div className="flex px-4 py-3 justify-center">
+            <div  className="flex px-4 py-3 justify-center">
               <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#c5dceb] text-[#121516] text-sm font-bold leading-normal tracking-[0.015em]">
-                <span className="truncate">Contact Us</span>
+                <Link to="/contact" className="truncate">Contact Us</Link>
               </button>
             </div>
           </div>
