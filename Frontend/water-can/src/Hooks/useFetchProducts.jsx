@@ -6,8 +6,10 @@ const FetchProducts = () => {
     const [products,setProducts] = useState([])
     useEffect(() => {
         async function fetchpro(){
+                const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
+
                try{
-            const res = await fetch("http://localhost:5000/products")
+            const res = await fetch(`${backendUrl}/products`)
             const data = await res.json();
             setProducts(data); 
         }catch(err){
