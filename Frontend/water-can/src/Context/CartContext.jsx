@@ -12,7 +12,7 @@ export const CartProvider = ({ children }) => {
       import.meta.env.VITE_BACKEND_URL ||
       "https://water-can-backend.onrender.com/";
       try{
-        const res = await fetch(`${backendUrl}/cart`);
+        const res = await fetch(`${backendUrl}/products`);
         const data = await res.json();
         setCart(Array.isArray(data.items) ? data.items : []);
 
