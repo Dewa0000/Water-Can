@@ -10,7 +10,7 @@ export const CartProvider = ({ children }) => {
     async function fetchProd(){
       const backendUrl = 
       import.meta.env.VITE_BACKEND_URL ||
-      "https://water-can-backend.onrender.com";
+      "https://water-can-backend.onrender.com/";
       try{
         const res = await fetch(`${backendUrl}/cart`);
         const data = await res.json();
