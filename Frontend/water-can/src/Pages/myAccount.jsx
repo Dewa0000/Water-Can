@@ -18,8 +18,10 @@ function MyAccount() {
   useEffect(() => {
     // Fetch user data (replace with actual auth token)
     const fetchUserData = async () => {
+          const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
+
       try {
-        const response = await fetch('http://localhost:5000/auth/me', {
+        const response = await fetch(`${backendUrl}/auth/me`, {
           headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }, // Assume token-based auth
         });
         if (!response.ok) throw new Error('Failed to fetch user data');
