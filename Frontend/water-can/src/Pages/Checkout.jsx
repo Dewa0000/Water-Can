@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { React,useState } from "react";
 import { useCart } from "../Context/CartContext";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,7 @@ const CheckoutPage = () => {
 
   const [form, setForm] = useState({
     name: "",
+    email:"",
     phone: "",
     address: "",
     notes: "",
@@ -19,22 +20,37 @@ const CheckoutPage = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handlePlaceOrder = (e) => {
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
     if (!form.name || !form.phone || !form.address) {
       alert("Fill all required fields");
       return;
     }
+     
+    try{
+      const res = await fetch("http://localhost:5000/checkout", {
+            "method": "POST",
+            "headers": {"Content-Type": "application/json"},
+            "body": JSON.stringify({
+              ...form,
+              items: cart,
+               total
+            })
+      });
 
-    // Simulate order placement
-    console.log("Order placed:", { ...form, cart });
+      const data = await res.json();
 
-    // Clear cart
-    setCart([]);
-
-    // Navigate to thank you / success
-    navigate("/thank-you");
+      if(res.ok){
+        console.log("ordered products:", data)
+        setCart([]);
+        navigate("/thank-you");
+      }else{
+        console.log("Error Message:",data.message)
+      }
+    }catch(err){
+      console.log(err.message)
+    }
   };
 
   return (
@@ -47,6 +63,16 @@ const CheckoutPage = () => {
           name="name"
           placeholder="Full Name"
           value={form.name}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+          required
+        />
+
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          value={form.email}
           onChange={handleChange}
           className="w-full p-2 border rounded"
           required

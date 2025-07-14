@@ -9,6 +9,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+  const token = localStorage.getItem("token");
 
   return (
     <header
@@ -40,7 +41,7 @@ function Navbar() {
       <div className="flex flex-1 justify-end gap-8">
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-9">
-          {['Services', 'Products', 'Subscription', 'Contact'].map((item) => (
+          {['Services', 'Products', 'Subscription', 'Contact',"Login","Signup"].map((item) => (
             <NavLink
               key={item}
               to={`/${item.toLowerCase()}`}
@@ -112,7 +113,7 @@ function Navbar() {
             aria-label={`View cart with ${totalItems} items`}
           >
             <FaShoppingCart size={20} />
-            {totalItems > 0 && (
+            {token && totalItems > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {totalItems}
               </span>

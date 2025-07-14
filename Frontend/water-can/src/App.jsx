@@ -11,6 +11,10 @@ import ContactPage from '../src/Pages/Contact';
 import SubscriptionPage from '../src/Pages/Subscription';
 import Navbar from '../src/Components/Navbar';
 import Footer from '../src/Components/Footer';
+import Signup from './Pages/Signup';
+import Login from './Pages/Login';
+import ProtectedRoute from './Components/protectedRoutes';
+import MyAccount from './Pages/myAccount';
 
 function App() {
   return (
@@ -29,10 +33,19 @@ function App() {
                 <Route path="/products" element={<ProductsPage />} />
                 <Route path="/subscription" element={<SubscriptionPage />} />
                 <Route path="/contact" element={<ContactPage />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/cart" element={
+                  <ProtectedRoute><Cart /></ProtectedRoute>
+                  } />
+                <Route path="/checkout" element={
+                  <ProtectedRoute><CheckoutPage /></ProtectedRoute>
+                  } />
                 <Route path="/thank-you" element={<ThankYouPage />} />
                 <Route path="*" element={<NotFound />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                <Route path='/account' element={<ProtectedRoute>
+                  <MyAccount/>
+                </ProtectedRoute>}></Route>
               </Routes>
             </main>
             <Footer />

@@ -4,10 +4,12 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Cart = require("./Routes/cartRoute");
-const contact = require("./Routes/contactRoute");
-const order = require("./Routes/orderRoute");
+const Signup = require("./Routes/userRoutes")
+const Order = require("./Routes/orderRoute");
 const Product = require("./Routes/productRoute");
-const subscription = require("./Routes/subscriptionRoute");
+const Login = require("./Routes/userRoutes")
+
+
 
 
 dotenv.config();
@@ -25,6 +27,9 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 
 app.use("/products", Product);
 app.use("/cart", Cart);
+app.use("/checkout", Order );
+app.use("/signup", Signup);
+app.use("/api/user", Login);
 
 const PORT = process.env.PORT || 5000;
 
