@@ -8,8 +8,11 @@ export const CartProvider = ({ children }) => {
 
   useEffect(() => {
     async function fetchProd(){
+      const backendUrl = 
+      import.meta.env.VITE_BACKEND_URL ||
+      "https://water-can-backend.onrender.com";
       try{
-        const res = await fetch("http://localhost:5000/cart/");
+        const res = await fetch(`${backendUrl}/cart`);
         const data = await res.json();
         setCart(Array.isArray(data.items) ? data.items : []);
 
