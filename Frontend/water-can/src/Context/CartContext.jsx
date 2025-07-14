@@ -24,14 +24,16 @@ export const CartProvider = ({ children }) => {
     fetchProd();
   },[])
 
-  const syncCartWithBackend = async (updatedCart) => {
+ const syncCartWithBackend = async (updatedCart) => {
   try {
     const cleanedCart = updatedCart.map(item => ({
       productID: item._id,
       qty: item.qty
     }));
 
-    await fetch("http://localhost:5000/cart/", {
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+
+    await fetch(`${backendUrl}/cart/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ items: cleanedCart })
@@ -40,6 +42,7 @@ export const CartProvider = ({ children }) => {
     console.error("Failed to sync cart with backend:", err.message);
   }
 };
+
 
 
   const addToCart = (product) => {
