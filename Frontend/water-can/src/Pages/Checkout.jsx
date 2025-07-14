@@ -27,9 +27,10 @@ const CheckoutPage = () => {
       alert("Fill all required fields");
       return;
     }
-     
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
+
     try{
-      const res = await fetch("http://localhost:5000/checkout", {
+      const res = await fetch(`${backendUrl}/checkout`, {
             "method": "POST",
             "headers": {"Content-Type": "application/json"},
             "body": JSON.stringify({
