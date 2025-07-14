@@ -31,9 +31,10 @@ function Signup() {
       setError('Please agree to the Terms and Conditions');
       return;
     }
+                     const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
 
     try {
-      const response = await fetch('http://localhost:5000/signup', {
+      const response = await fetch(`${backendUrl}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
