@@ -31,7 +31,7 @@ export const CartProvider = ({ children }) => {
       qty: item.qty
     }));
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
 
     await fetch(`${backendUrl}/cart/`, {
       method: "POST",
