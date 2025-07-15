@@ -32,6 +32,7 @@ function Login() {
       });
       if (!response.ok) throw new Error('Login failed');
       const data = await response.json();
+      localStorage.setItem("token",data.token);
       console.log('Login successful:', data);
       // Store token or user data (e.g., in localStorage or context) and redirect
       navigate('/'); // Redirect to home or dashboard
