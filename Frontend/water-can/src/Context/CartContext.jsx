@@ -1,4 +1,3 @@
-// CartContext.js
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const CartContext = createContext();
@@ -7,25 +6,30 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    async function fetchProd(){
-      const backendUrl = 
-      import.meta.env.VITE_BACKEND_URL ||
-      "https://water-can-backend.onrender.com/";
-      try{
-        const res = await fetch(`${backendUrl}/products`);
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+
+    const backendUrl =
+      import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
+
+    async function fetchCart() {
+      try {
+        const res = await fetch(`${backendUrl}/cart/${userId}`);
         const data = await res.json();
         setCart(Array.isArray(data.items) ? data.items : []);
-
-        console.log(data.items);
-      }catch(err){
-        console.log("Failure in fetching products:", err.message)
+        console.log("Fetched Cart:", data.items);
+      } catch (err) {
+        console.error("Failure in fetching cart:", err.message);
       }
     }
-    fetchProd();
-  },[])
 
- const syncCartWithBackend = async (updatedCart) => {
-  try {
+    fetchCart();
+  }, []);
+
+  const syncCartWithBackend = async (updatedCart) => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+
     const cleanedCart = updatedCart.map(item => ({
       productID: item._id,
       qty: item.qty
@@ -33,55 +37,49 @@ export const CartProvider = ({ children }) => {
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
 
-    await fetch(`${backendUrl}/cart/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: cleanedCart })
-    });
-  } catch (err) {
-    console.error("Failed to sync cart with backend:", err.message);
-  }
-};
-
-
+    try {
+      await fetch(`${backendUrl}/cart`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, items: cleanedCart })
+      });
+    } catch (err) {
+      console.error("Failed to sync cart with backend:", err.message);
+    }
+  };
 
   const addToCart = (product) => {
-  const exists = cart.find((item) => item._id === product._id);
-  let updatedCart;
-  
-  if (exists) {
-    updatedCart = cart.map((item) =>
-      item._id === product._id ? { ...item, qty: item.qty + 1 } : item
-    );
-  } else {
-    updatedCart = [...cart, { ...product, qty: 1 }];
-  }
-  console.log("Updated Cart:", updatedCart);
+    const exists = cart.find((item) => item._id === product._id);
+    let updatedCart;
 
-  setCart(updatedCart);
-  syncCartWithBackend(updatedCart); // ✅ sync with backend
-};
+    if (exists) {
+      updatedCart = cart.map((item) =>
+        item._id === product._id ? { ...item, qty: item.qty + 1 } : item
+      );
+    } else {
+      updatedCart = [...cart, { ...product, qty: 1 }];
+    }
 
+    setCart(updatedCart);
+    syncCartWithBackend(updatedCart);
+  };
 
   const removeFromCart = (product) => {
-  let updatedCart;
+    const exists = cart.find((item) => item._id === product._id);
+    if (!exists) return;
 
-  const exists = cart.find((item) => item._id === product._id);
-  if (!exists) return;
+    let updatedCart;
+    if (exists.qty === 1) {
+      updatedCart = cart.filter((item) => item._id !== product._id);
+    } else {
+      updatedCart = cart.map((item) =>
+        item._id === product._id ? { ...item, qty: item.qty - 1 } : item
+      );
+    }
 
-  if (exists.qty === 1) {
-    updatedCart = cart.filter((item) => item._id !== product._id);
-  } else {
-    updatedCart = cart.map((item) =>
-      item._id === product._id ? { ...item, qty: item.qty - 1 } : item
-    );
-  }
-  console.log("Updated Cart:", updatedCart);
-
-  setCart(updatedCart);
-  syncCartWithBackend(updatedCart); // ✅ sync with backend
-};
-
+    setCart(updatedCart);
+    syncCartWithBackend(updatedCart);
+  };
 
   return (
     <CartContext.Provider value={{ cart, setCart, addToCart, removeFromCart }}>

@@ -1,19 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const Cart = require("../Models/Cart")
+const Cart = require("../Models/Cart");
 
-router.get("/", async (req, res) => {
+// GET /cart/:userId → fetch cart for a user
+router.get("/:userId", async (req, res) => {
   try {
-    const cart = await Cart.findOne().populate("items.productID");
+    const cart = await Cart.findOne({ userId: req.params.userId }).populate("items.productID");
 
-    if (!cart) {
-      return res.json({ items: [] });
-    }
+    if (!cart) return res.json({ items: [] });
 
     const enrichedItems = cart.items.map(item => {
       const product = item.productID;
-
-      if (!product) return null; // In case product is deleted
+      if (!product) return null;
 
       return {
         _id: product._id,
@@ -21,7 +19,7 @@ router.get("/", async (req, res) => {
         price: product.price,
         qty: item.qty
       };
-    }).filter(Boolean); // Remove any nulls
+    }).filter(Boolean);
 
     res.json({ items: enrichedItems });
 
@@ -30,24 +28,19 @@ router.get("/", async (req, res) => {
   }
 });
 
-
-    // POST /cart
+// POST /cart → save cart for a user
 router.post("/", async (req, res) => {
   try {
-    const { items } = req.body;
+    const { userId, items } = req.body;
 
-    console.log(items);
-    
-
-    if (!Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ message: "Invalid cart data." });
+    if (!userId || !Array.isArray(items)) {
+      return res.status(400).json({ message: "Missing userId or items" });
     }
 
-    // Optional: Clear previous cart if you're only keeping one cart
-    await Cart.deleteMany();
+    // overwrite existing cart for user
+    await Cart.findOneAndDelete({ userId });
 
-    const newCart = new Cart({ items });
-    console.log(newCart);
+    const newCart = new Cart({ userId, items });
     await newCart.save();
 
     res.status(201).json({ message: "Cart saved", cart: newCart });
@@ -56,7 +49,4 @@ router.post("/", async (req, res) => {
   }
 });
 
-
 module.exports = router;
-
-
