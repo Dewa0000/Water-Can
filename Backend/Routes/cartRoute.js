@@ -1,17 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const Cart = require("../Models/Cart");
+const Cart = require("../Models/Cart")
 
-// GET /cart/:userId → fetch cart for a user
-router.get("/:userId", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    const cart = await Cart.findOne({ userId: req.params.userId }).populate("items.productID");
+    const cart = await Cart.findOne().populate("items.productID");
 
-    if (!cart) return res.json({ items: [] });
+    if (!cart) {
+      return res.json({ items: [] });
+    }
 
     const enrichedItems = cart.items.map(item => {
       const product = item.productID;
-      if (!product) return null;
+
+      if (!product) return null; // In case product is deleted
 
       return {
         _id: product._id,
@@ -19,7 +21,7 @@ router.get("/:userId", async (req, res) => {
         price: product.price,
         qty: item.qty
       };
-    }).filter(Boolean);
+    }).filter(Boolean); // Remove any nulls
 
     res.json({ items: enrichedItems });
 
@@ -28,19 +30,24 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
-// POST /cart → save cart for a user
+
+    // POST /cart
 router.post("/", async (req, res) => {
   try {
-    const { userId, items } = req.body;
+    const { items } = req.body;
 
-    if (!userId || !Array.isArray(items)) {
-      return res.status(400).json({ message: "Missing userId or items" });
+    console.log(items);
+    
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ message: "Invalid cart data." });
     }
 
-    // overwrite existing cart for user
-    await Cart.findOneAndDelete({ userId });
+    // Optional: Clear previous cart if you're only keeping one cart
+    await Cart.deleteMany();
 
-    const newCart = new Cart({ userId, items });
+    const newCart = new Cart({ items });
+    console.log(newCart);
     await newCart.save();
 
     res.status(201).json({ message: "Cart saved", cart: newCart });
@@ -49,4 +56,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+
 module.exports = router;
+
+
