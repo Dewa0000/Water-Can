@@ -32,19 +32,9 @@ function Login() {
       });
       if (!response.ok) throw new Error('Login failed');
       const data = await response.json();
-      localStorage.setItem("token", data.token);
-
-      // ✅ Check if `user` exists before using it
-      if (data.user && data.user._id) {
-        localStorage.setItem("userId", data.user._id);
-      } else {
-        console.warn("User data is missing from login response:", data);
-      }
-
       console.log('Login successful:', data);
-      navigate('/');
-
-
+      // Store token or user data (e.g., in localStorage or context) and redirect
+      navigate('/'); // Redirect to home or dashboard
     } catch (err) {
       setError(err.message);
     }
