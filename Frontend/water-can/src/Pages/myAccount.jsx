@@ -25,6 +25,7 @@ function MyAccount() {
         });
         if (!response.ok) throw new Error('Failed to fetch user data');
         const data = await response.json();
+        console.log("Fetched user data:", data);
         setUserData(data);
       } catch (err) {
         setError(err.message);
@@ -69,7 +70,7 @@ function MyAccount() {
                     </tr>
                   </thead>
                   <tbody>
-                    {userData.orders.map((order, index) => (
+                    {(userData.orders || []).map((order, index) => (
                       <tr key={index} className="border-t border-t-[#dbe1e6]">
                         <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">{order.id}</td>
                         <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">{order.date}</td>
