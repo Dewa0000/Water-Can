@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const Cart = require("../Models/Cart")
 
-router.get("/", async (req, res) => {
+router.get("/:userId", async (req, res) => {
   try {
-    const cart = await Cart.findOne().populate("items.productID");
+    const userId = req.params.userId;
+    const cart = await Cart.findOne({userId}).populate("items.productID");
 
     if (!cart) {
       return res.json({ items: [] });
@@ -49,8 +50,14 @@ router.post("/", async (req, res) => {
       return res.status(400).json({message: "Invalid Cart Data or userID Missing"})
     }
 
-    // Optional: Clear previous cart if you're only keeping one cart
-    await Cart.deleteMany();
+    const existingCart = await Cart.findOne({userId});
+
+    if(existingCart){
+         existingCart.items = items;
+         await existingCart.save();
+         return res.status(200).json({message: "Cart Updated", cart: existingCart})
+    }
+  
 
     const newCart = new Cart({ userId,items });
     console.log("New Cart:",newCart);

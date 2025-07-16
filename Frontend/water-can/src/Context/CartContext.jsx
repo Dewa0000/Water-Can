@@ -33,10 +33,18 @@ export const CartProvider = ({ children }) => {
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
 
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?._id;
+
+    if(!userId){
+      console.log("No userId found in localStorage. Not syncing cart.");
+      return;
+    }
+
     await fetch(`${backendUrl}/cart/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: cleanedCart })
+      body: JSON.stringify({userId, items: cleanedCart })
     });
   } catch (err) {
     console.error("Failed to sync cart with backend:", err.message);
