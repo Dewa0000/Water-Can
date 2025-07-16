@@ -3,26 +3,25 @@ import { useNavigate } from 'react-router-dom';
 
 function MyAccount() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({
-    name: 'Priya Sharma',
-    email: 'priya.sharma@email.com',
-    phoneNumber: '+91 98765 43210',
-    orders: [
-      { id: '#12345', date: '2024-02-20', status: 'Delivered', amount: '₹200' },
-      { id: '#67890', date: '2024-01-15', status: 'Delivered', amount: '₹150' },
-      { id: '#11223', date: '2023-12-10', status: 'Delivered', amount: '₹100' },
-    ],
-  });
+  const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
 
   useEffect(() => {
     // Fetch user data (replace with actual auth token)
     const fetchUserData = async () => {
           const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
+          const token = localStorage.getItem("token");
+
+          if(!token){
+            setError("Please Login Again");
+            navigate("/login");
+            return;
+          }
+
 
       try {
         const response = await fetch(`${backendUrl}/auth/me`, {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }, // Assume token-based auth
+          headers: { 'Authorization': `Bearer ${token}` }, // Assume token-based auth
         });
         if (!response.ok) throw new Error('Failed to fetch user data');
         const data = await response.json();
