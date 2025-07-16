@@ -7,12 +7,26 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    async function fetchProd(){
+    const storedCart = localStorage.setItem("cart")
+    if(storedCart){
+      setCart(JSON.parse(storedCart))
+    }
+  },[])
+
+  useEffect(() => {
+      localStorage.setItem("cart",JSON.stringify(cart));
+  },[cart])
+
+  useEffect(() => {
+    async function fetchCart(){
       const backendUrl = 
       import.meta.env.VITE_BACKEND_URL ||
       "https://water-can-backend.onrender.com/";
+
+      const user = JSON.parse(localStorage.getItem("user"));
+      if(!user?._id) return
       try{
-        const res = await fetch(`${backendUrl}/products`);
+        const res = await fetch(`${backendUrl}/cart/${user._id}`);
         const data = await res.json();
         setCart(Array.isArray(data.items) ? data.items : []);
 
@@ -21,7 +35,7 @@ export const CartProvider = ({ children }) => {
         console.log("Failure in fetching products:", err.message)
       }
     }
-    fetchProd();
+    fetchCart();
   },[])
 
  const syncCartWithBackend = async (updatedCart) => {
