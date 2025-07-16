@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 function MyAccount() {
   const navigate = useNavigate();
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
