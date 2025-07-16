@@ -31,22 +31,28 @@ router.get("/", async (req, res) => {
 });
 
 
+
+
     // POST /cart
 router.post("/", async (req, res) => {
   try {
-    const { items } = req.body;
+    const { userId,items } = req.body;
 
-    console.log(items);
+    console.log(userId,items);
     
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: "Invalid cart data." });
     }
 
+    if(!userId || !Array.isArray(items) || items.length === 0){
+      return res.status(400).json({message: "Invalid Cart Data or userID Missing"})
+    }
+
     // Optional: Clear previous cart if you're only keeping one cart
     await Cart.deleteMany();
 
-    const newCart = new Cart({ items });
+    const newCart = new Cart({ userId,items });
     console.log(newCart);
     await newCart.save();
 
