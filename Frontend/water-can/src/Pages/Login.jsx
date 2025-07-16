@@ -34,6 +34,7 @@ function Login() {
       const data = await response.json();
       localStorage.setItem("user", JSON.stringify(data.user))
       localStorage.setItem("token",data.token);
+      console.log("User from localStorage:", user);
       console.log('Login successful:', data);
       // Store token or user data (e.g., in localStorage or context) and redirect
       navigate('/'); // Redirect to home or dashboard
