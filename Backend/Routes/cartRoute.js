@@ -53,7 +53,7 @@ router.post("/", async (req, res) => {
     await Cart.deleteMany();
 
     const newCart = new Cart({ userId,items });
-    console.log(newCart);
+    console.log("New Cart:",newCart);
     await newCart.save();
 
     res.status(201).json({ message: "Cart saved", cart: newCart });
