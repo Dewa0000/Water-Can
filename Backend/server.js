@@ -30,6 +30,7 @@ app.use("/cart", Cart);
 app.use("/checkout", Order );
 app.use("/signup", Signup);
 app.use("/api/user", Login);
+app.use("/auth", require("./Routes/authRoute"))
 
 const PORT = process.env.PORT || 5000;
 
