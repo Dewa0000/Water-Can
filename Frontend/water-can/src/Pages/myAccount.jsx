@@ -9,24 +9,29 @@ function MyAccount() {
   useEffect(() => {
     // Fetch user data (replace with actual auth token)
     const fetchUserData = async () => {
-          const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
-          const token = localStorage.getItem("token");
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+      const token = localStorage.getItem("token");
 
-          if(!token){
-            setError("Please Login Again");
-            navigate("/login");
-            return;
-          }
-
+      if (!token) {
+        setError("Please Login Again");
+        navigate("/login");
+        return;
+      }
+      console.log("JWT Token in localStorage:", token);
 
       try {
         const response = await fetch(`${backendUrl}/auth/me`, {
-          headers: { 'Authorization': `Bearer ${token}` }, // Assume token-based auth
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
         });
         if (!response.ok) throw new Error('Failed to fetch user data');
         const data = await response.json();
         console.log("Fetched user data:", data);
         setUserData(data);
+        localStorage.setItem("token", token);
       } catch (err) {
         setError(err.message);
       }
