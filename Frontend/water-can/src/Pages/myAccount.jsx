@@ -80,7 +80,7 @@ function MyAccount() {
             </div>
             {error && <p className="text-red-500 text-center px-4">{error}</p>}
             <h3 className="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Personal Information</h3>
-            <p className="text-[#121516] text-base font-normal leading-normal pb-3 pt-1 px-4">Name: {userData.name}</p>
+            <p className="text-[#121516] text-base font-normal leading-normal pb-3 pt-1 px-4">Name: {userData.fullName}</p>
             <p className="text-[#121516] text-base font-normal leading-normal pb-3 pt-1 px-4">Email: {userData.email}</p>
             <p className="text-[#121516] text-base font-normal leading-normal pb-3 pt-1 px-4">Phone Number: {userData.phoneNumber}</p>
             <h3 className="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Order History</h3>
