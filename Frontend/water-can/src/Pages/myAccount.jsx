@@ -41,26 +41,29 @@ function MyAccount() {
   }, []);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
-      try{
-        const res = await fetch(`${backendUrl}/checkout/my-orders`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
-          }
-        });
-        const data = await res.json();
-        if(res.ok){
-          setOrders(data)
-          console.log("Order Data:", data);
-        }else{
-          console.error("Error in fetching Order:", data.error)
+  const fetchOrders = async () => {
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+    try {
+      const res = await fetch(`${backendUrl}/checkout/my-orders`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
         }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setOrders(data);
+        console.log("Order Data:", data);
+      } else {
+        console.error("Error in fetching Order:", data.error);
       }
-    
+    } catch (err) {
+      console.error("Fetch order error:", err.message);
     }
-    fetchOrders();
-  },[])
+  };
+
+  fetchOrders();
+}, []);
+
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Clear auth token
