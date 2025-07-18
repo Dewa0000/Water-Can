@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 function MyAccount() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
+  const [orders,setOrders] = useState([])
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -38,6 +39,28 @@ function MyAccount() {
     };
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+      try{
+        const res = await fetch(`${backendUrl}/checkout/my-orders`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+        const data = await res.json();
+        if(res.ok){
+          setOrders(data)
+          console.log("Order Data:", data);
+        }else{
+          console.error("Error in fetching Order:", data.error)
+        }
+      }
+    
+    }
+    fetchOrders();
+  },[])
 
   const handleLogout = () => {
     localStorage.removeItem('token'); // Clear auth token
@@ -75,7 +98,7 @@ function MyAccount() {
                     </tr>
                   </thead>
                   <tbody>
-                    {(userData.orders || []).map((order, index) => (
+                    {(orders || []).map((order, index) => (
                       <tr key={index} className="border-t border-t-[#dbe1e6]">
                         <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">{order.id}</td>
                         <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">{order.date}</td>
