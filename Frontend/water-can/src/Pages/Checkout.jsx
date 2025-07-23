@@ -1,4 +1,4 @@
-import  { React,useState } from "react";
+import { React, useState } from "react";
 import { useCart } from "../Context/CartContext";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const CheckoutPage = () => {
 
   const [form, setForm] = useState({
     name: "",
-    email:"",
+    email: "",
     phone: "",
     address: "",
     notes: "",
@@ -27,30 +27,44 @@ const CheckoutPage = () => {
       alert("Fill all required fields");
       return;
     }
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
 
-    try{
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You're not logged in. Please login to place order.");
+      navigate("/login");
+      return;
+    }
+
+    const backendUrl =
+      import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+
+    try {
       const res = await fetch(`${backendUrl}/checkout`, {
-            "method": "POST",
-            "headers": {"Content-Type": "application/json"},
-            "body": JSON.stringify({
-              ...form,
-              items: cart,
-               total
-            })
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // ✅ Send token here
+        },
+        body: JSON.stringify({
+          ...form,
+          items: cart,
+          total,
+        }),
       });
 
       const data = await res.json();
 
-      if(res.ok){
-        console.log("ordered products:", data)
+      if (res.ok) {
+        console.log("Ordered products:", data);
         setCart([]);
         navigate("/thank-you");
-      }else{
-        console.log("Error Message:",data.message)
+      } else {
+        console.log("Error Message:", data.message);
+        alert(data.message || "Something went wrong");
       }
-    }catch(err){
-      console.log(err.message)
+    } catch (err) {
+      console.log(err.message);
+      alert("Network error or server issue");
     }
   };
 

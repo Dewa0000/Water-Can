@@ -12,7 +12,7 @@ router.get("/my-orders", authMiddleware, async (req,res) => {
   }
 })
 
-router.post("/", async (req, res) => {
+router.post("/",authMiddleware, async (req, res) => {
   try {
     const { name, email, phone, address, notes, items, total } = req.body;
 
