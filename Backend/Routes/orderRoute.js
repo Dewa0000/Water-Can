@@ -28,6 +28,7 @@ router.post("/", async (req, res) => {
       notes,
       items,
       total,
+      userId:req.userId
     });
 
     await newOrder.save();

@@ -14,6 +14,7 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   total: Number,
+  userId: {type: mongoose.Schema.Types.ObjectId, ref: "Auth", required: true},
   createdAt: { type: Date, default: Date.now },
 });
 
