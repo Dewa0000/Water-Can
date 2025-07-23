@@ -43,21 +43,34 @@ function MyAccount() {
   useEffect(() => {
   const fetchOrders = async () => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("No token found, redirecting to login...");
+      navigate("/login");
+      return;
+    }
+
     try {
       const res = await fetch(`${backendUrl}/checkout/my-orders`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
+
       const data = await res.json();
+
       if (res.ok) {
         setOrders(data);
         console.log("Order Data:", data);
       } else {
-        console.error("Error in fetching Order:", data.error);
+        console.error("Error fetching orders:", data.message || data.error);
+        setError(data.message || "Unable to fetch orders");
       }
     } catch (err) {
       console.error("Fetch order error:", err.message);
+      setError("Something went wrong. Try again later.");
     }
   };
 
