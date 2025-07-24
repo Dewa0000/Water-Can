@@ -3,19 +3,22 @@ const router = express.Router();
 const Order = require("../Models/Order");
 const authMiddleware = require("../Middleware/requireAuth");
 
-router.get("/my-orders", authMiddleware, async (req,res) => {
+// GET /my-orders - Fetch all orders for logged-in user
+router.get("/my-orders", authMiddleware, async (req, res) => {
   try {
-    console.log(req.userId);
-    const orders = await Order.find({userId : req.userId}).sort({createdAt : -1});
-    res.json(orders);
-  }catch(err){
-    res.status(400).json({err: "Failed to fetch Orders"})
+    console.log("Fetching orders for user:", req.userId); // Log userId
+
+    const orders = await Order.find({ userId: req.userId }).sort({ createdAt: -1 });
+
+    res.status(200).json(orders);
+  } catch (err) {
+    console.error("Failed to fetch orders:", err);
+    res.status(400).json({ error: "Failed to fetch orders" });
   }
-})
+});
 
-
-
-router.post("/",authMiddleware, async (req, res) => {
+// POST / - Place a new order
+router.post("/", authMiddleware, async (req, res) => {
   try {
     const { name, email, phone, address, notes, items, total } = req.body;
 
@@ -24,6 +27,7 @@ router.post("/",authMiddleware, async (req, res) => {
     }
 
     const newOrder = new Order({
+      userId: req.userId, // ✅ This links order to logged-in user
       name,
       email,
       phone,
@@ -31,7 +35,6 @@ router.post("/",authMiddleware, async (req, res) => {
       notes,
       items,
       total,
-      userId:req.userId
     });
 
     await newOrder.save();
@@ -41,7 +44,8 @@ router.post("/",authMiddleware, async (req, res) => {
       order: newOrder,
     });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Error placing order:", err);
+    res.status(500).json({ message: "Failed to place order" });
   }
 });
 
