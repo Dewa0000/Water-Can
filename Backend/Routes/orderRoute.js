@@ -5,6 +5,7 @@ const authMiddleware = require("../Middleware/requireAuth");
 
 router.get("/my-orders", authMiddleware, async (req,res) => {
   try {
+    console.log(req.userId);
     const orders = await Order.find({userId : req.userId}).sort({createdAt : -1});
     res.json(orders);
   }catch(err){
