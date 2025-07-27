@@ -6,7 +6,9 @@ const authMiddleware = require("../Middleware/requireAuth");
 // GET /my-orders - Fetch all orders for logged-in user
 router.get("/my-orders", authMiddleware, async (req, res) => {
   try {
-    console.log("Fetching orders for user:", req.userId); // Log userId
+    console.log("Fetching orders for user:", req.userId);
+    const allOrders = await Order.find({});
+console.log("All orders:", allOrders); // Log userId
 
     const orders = await Order.find({ userId: req.userId }).sort({ createdAt: -1 });
      const mappedOrders = orders.map((order) =>(
