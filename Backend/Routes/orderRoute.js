@@ -9,8 +9,15 @@ router.get("/my-orders", authMiddleware, async (req, res) => {
     console.log("Fetching orders for user:", req.userId); // Log userId
 
     const orders = await Order.find({ userId: req.userId }).sort({ createdAt: -1 });
-
-    res.status(200).json(orders);
+     const mappedOrders = orders.map((order) =>(
+      {
+        id:order._id,
+        date: order.createdAt,
+        status: order.status || "Processing",
+        amount: order.total
+       }
+     ) );
+    res.status(200).json(mappedOrders);
   } catch (err) {
     console.error("Failed to fetch orders:", err);
     res.status(400).json({ error: "Failed to fetch orders" });
