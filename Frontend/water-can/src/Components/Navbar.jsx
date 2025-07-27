@@ -194,7 +194,7 @@ function Navbar() {
           </NavLink>
           {token && (
             <NavLink
-              to="/my-account"
+              to="/account"
               className="hidden md:flex relative items-center justify-center h-10 w-10 rounded-full bg-[#f0f3f4] text-[#121516] hover:bg-blue-600 hover:text-white transition"
               aria-label="Go to my account"
             >
