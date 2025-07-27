@@ -4,8 +4,8 @@ const Cart = require("../Models/Cart")
 
 router.get("/:userId", async (req, res) => {
   try {
-    const userId = req.params.userId;
-    const cart = await Cart.findOne({userId:userId}).populate("items.productID");
+    const userId = req.params.userId.toString();
+    const cart = await Cart.findOne({ userId: userId }).populate("items.productID");
 
     if (!cart) {
       return res.json({ items: [] });
@@ -34,33 +34,33 @@ router.get("/:userId", async (req, res) => {
 
 
 
-    // POST /cart
+// POST /cart
 router.post("/", async (req, res) => {
   try {
-    const { userId,items } = req.body;
+    const { userId, items } = req.body;
 
-    console.log(userId,items);
-    
+    console.log(userId, items);
+
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ message: "Invalid cart data." });
     }
 
-    if(!userId || !Array.isArray(items) || items.length === 0){
-      return res.status(400).json({message: "Invalid Cart Data or userID Missing"})
+    if (!userId || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ message: "Invalid Cart Data or userID Missing" })
+    }
+    const userIdStr = userId.toString();
+    const existingCart = await Cart.findOne({ userId: userIdStr });
+
+    if (existingCart) {
+      existingCart.items = items;
+      await existingCart.save();
+      return res.status(200).json({ message: "Cart Updated", cart: existingCart })
     }
 
-    const existingCart = await Cart.findOne({userId});
 
-    if(existingCart){
-         existingCart.items = items;
-         await existingCart.save();
-         return res.status(200).json({message: "Cart Updated", cart: existingCart})
-    }
-  
-
-    const newCart = new Cart({ userId,items });
-    console.log("New Cart:",newCart);
+    const newCart = new Cart({ userIdStr, items });
+    console.log("New Cart:", newCart);
     await newCart.save();
 
     res.status(201).json({ message: "Cart saved", cart: newCart });
