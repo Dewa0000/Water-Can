@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useCart } from '../Context/CartContext';
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart, FaUser } from 'react-icons/fa';
 
 function Navbar() {
   const { cart } = useCart();
@@ -19,7 +19,7 @@ function Navbar() {
       {/* Logo and Brand */}
       <div className="flex items-center gap-4 text-[#121516]">
         <div className="size-4">
-         
+          {/* Placeholder for logo SVG if needed */}
         </div>
         <div className="flex items-center gap-2">
           <NavLink to="/" className={({ isActive }) => (isActive ? 'text-blue-600' : '')}>
@@ -41,7 +41,7 @@ function Navbar() {
       <div className="flex flex-1 justify-end gap-8">
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-9">
-          {['Services', 'Products', 'Subscription', 'Contact',"Login","Signup"].map((item) => (
+          {['Services', 'Products', 'Subscription', 'Contact', 'Login', 'Signup'].map((item) => (
             <NavLink
               key={item}
               to={`/${item.toLowerCase()}`}
@@ -98,7 +98,7 @@ function Navbar() {
           </div>
         )}
 
-        {/* Order Now and Cart Buttons */}
+        {/* Order Now, Cart, and My Account Buttons */}
         <div className="flex items-center gap-4">
           <NavLink
             to="/products"
@@ -119,6 +119,15 @@ function Navbar() {
               </span>
             )}
           </NavLink>
+          {token && (
+            <NavLink
+              to="/account"
+              className="relative flex items-center justify-center h-10 w-10 rounded-full bg-[#f0f3f4] text-[#121516] hover:bg-blue-600 hover:text-white transition"
+              aria-label="Go to my account"
+            >
+              <FaUser size={20} />
+            </NavLink>
+          )}
         </div>
       </div>
     </header>

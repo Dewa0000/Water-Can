@@ -46,6 +46,7 @@ function App() {
                 <Route path='/account' element={<ProtectedRoute>
                   <MyAccount/>
                 </ProtectedRoute>}></Route>
+                
               </Routes>
             </main>
             <Footer />
