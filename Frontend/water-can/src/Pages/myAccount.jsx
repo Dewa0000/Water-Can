@@ -116,8 +116,8 @@ function MyAccount() {
                   <tbody>
                     {(orders || []).map((order, index) => (
                       <tr key={index} className="border-t border-t-[#dbe1e6]">
-                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">{order._id}</td>
-                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">{order.createdAt}</td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">{order.id}</td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">{order.date}</td>
                         <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
                           <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#f0f3f4] text-[#121516] text-sm font-medium leading-normal w-full">
                             <span className="truncate">{order.status}</span>
