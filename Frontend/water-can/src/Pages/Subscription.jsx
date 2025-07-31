@@ -30,6 +30,8 @@ const subscriptionPlans = [
   },
 ];
 
+const spliced = subscriptionPlans.splice(1,2)
+
 function SubscriptionPage() {
   return (
     <div
@@ -56,7 +58,7 @@ function SubscriptionPage() {
 
             {/* Subscription Plans */}
             <div className="grid grid-cols-[repeat(auto-fit,minmax(228px,1fr))] gap-2.5 px-4 py-3 @3xl:grid-cols-4">
-              {subscriptionPlans.map((plan, index) => (
+              {spliced.map((plan, index) => (
                 <div
                   key={index}
                   className="flex flex-1 flex-col gap-4 rounded-xl border border-solid border-[#dde1e3] bg-white p-6"
