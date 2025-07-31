@@ -11,7 +11,8 @@ const FetchProducts = () => {
                try{
             const res = await fetch(`${backendUrl}/products`)
             const data = await res.json();
-            setProducts(data); 
+            const spliced = data.splice(2,1)
+            setProducts(spliced); 
         }catch(err){
             console.log(err.message)
         }

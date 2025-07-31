@@ -60,6 +60,7 @@ function MyAccount() {
         const data = await res.json();
 
         if (res.ok) {
+          
           setOrders(data || []);
           console.log('Order Data:', data);
         } else {
