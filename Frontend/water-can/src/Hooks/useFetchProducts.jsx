@@ -11,8 +11,8 @@ const FetchProducts = () => {
                try{
             const res = await fetch(`${backendUrl}/products`)
             const data = await res.json();
-            const sliced = data.slice(2, 3) // Get elements from index 2 to 3 (exclusive)
-            setProducts(sliced); 
+            const spliced = data.splice(2, 3) // Get elements from index 2 to 3 (exclusive)
+            setProducts(spliced); 
         }catch(err){
             console.log(err.message)
         }
