@@ -5,7 +5,7 @@ const SubscriptionPlan = require('../Models/SubscriptionPlan');
 // Get all active subscription plans
 router.get('/plans', async (req, res) => {
   try {
-    const plans = await SubscriptionPlan.find({ isActive: true }).sort({ price: 1 });
+const plans = await SubscriptionPlan.find({}).sort({ price: 1 });
     res.json(plans);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching subscription plans', error: error.message });
