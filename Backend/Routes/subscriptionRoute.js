@@ -15,11 +15,10 @@ router.get('/plans', async (req, res) => {
 // Create a new subscription plan (admin only)
 router.post('/plans', async (req, res) => {
   try {
-    const { title, price, currency, features } = req.body;
+    const { title, price, features } = req.body;
     const newPlan = new SubscriptionPlan({
       title,
       price,
-      currency,
       features
     });
     const savedPlan = await newPlan.save();
