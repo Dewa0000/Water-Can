@@ -1,38 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-const subscriptionPlans = [
-  {
-    title: 'Basic',
-    price: '₹299',
-    features: ['4 cans per month', 'Standard delivery', 'Basic support'],
-  },
-  {
-    title: 'Premium',
-    price: '₹499',
-    features: [
-      '8 cans per month',
-      'Express delivery',
-      'Priority support',
-      'Free dispenser maintenance',
-    ],
-  },
-  {
-    title: 'Family',
-    price: '₹799',
-    features: [
-      '12 cans per month',
-      'Express delivery',
-      'Premium support',
-      'Free dispenser maintenance',
-      'Additional discounts',
-    ],
-  },
-];
-
-const spliced = subscriptionPlans.splice(1,2)
+import useFetchSubscriptionPlans from '../Hooks/useFetchSubscriptionPlans';
 
 function SubscriptionPage() {
+  const { plans, loading, error } = useFetchSubscriptionPlans();
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-lg">Loading subscription plans...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    console.log("Error loading subscription plans:", error);
+  }
+
+  if (plans.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="text-lg">No subscription plans available</div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden"
@@ -58,7 +50,7 @@ function SubscriptionPage() {
 
             {/* Subscription Plans */}
             <div className="grid grid-cols-[repeat(auto-fit,minmax(228px,1fr))] gap-2.5 px-4 py-3 @3xl:grid-cols-4">
-              {spliced.map((plan, index) => (
+              {plans.map((plan, index) => (
                 <div
                   key={index}
                   className="flex flex-1 flex-col gap-4 rounded-xl border border-solid border-[#dde1e3] bg-white p-6"

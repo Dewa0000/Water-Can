@@ -8,6 +8,7 @@ const Signup = require("./Routes/userRoutes")
 const Order = require("./Routes/orderRoute");
 const Product = require("./Routes/productRoute");
 const Login = require("./Routes/userRoutes")
+const Subscription = require("./Routes/subscriptionRoute");
 
 
 
@@ -31,6 +32,7 @@ app.use("/checkout", Order );
 app.use("/signup", Signup);
 app.use("/api/user", Login);
 app.use("/auth", require("./Routes/authRoute"))
+app.use("/subscription", Subscription);
 
 const PORT = process.env.PORT || 5000;
 
