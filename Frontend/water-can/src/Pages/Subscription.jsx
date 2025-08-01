@@ -1,9 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useFetchSubscriptionPlans from '../Hooks/useFetchSubscriptionPlans';
 
 function SubscriptionPage() {
   const { plans, loading, error } = useFetchSubscriptionPlans();
+  const navigate = useNavigate();
+
+  const handleChoosePlan = (plan) => {
+    localStorage.setItem("selectedSubcriptionPlan", JSON.stringify(plan));
+    navigate("/subscription-checkout");
+  }
 
   if (loading) {
     return (
@@ -68,7 +74,7 @@ function SubscriptionPage() {
                       </span>
                     </p>
                   </div>
-                  <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f1f3f4] text-[#121516] text-sm font-bold leading-normal tracking-[0.015em]">
+                  <button onClick = {() => {handleChoosePlan(plan)}} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#f1f3f4] text-[#121516] text-sm font-bold leading-normal tracking-[0.015em]">
                     <span className="truncate">Choose Plan</span>
                   </button>
                   <div className="flex flex-col gap-2">
@@ -104,7 +110,7 @@ function SubscriptionPage() {
 
             {/* Contact Button */}
             <div className="flex px-4 py-3 justify-center">
-              <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#c5dceb] text-[#121516] text-sm font-bold leading-normal tracking-[0.015em]">
+              <button  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-[#c5dceb] text-[#121516] text-sm font-bold leading-normal tracking-[0.015em]">
                 <Link className="truncate">Contact Us</Link>
               </button>
             </div>

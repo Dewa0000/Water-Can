@@ -46,7 +46,7 @@ function App() {
                 <Route path='/account' element={<ProtectedRoute>
                   <MyAccount/>
                 </ProtectedRoute>}></Route>
-                
+                <Route path='/subscription-checkout'></Route>
               </Routes>
             </main>
             <Footer />
