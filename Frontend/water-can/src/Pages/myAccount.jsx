@@ -120,99 +120,148 @@ function MyAccount() {
 
   return (
     <div
-      className="relative flex min-h-screen flex-col bg-white overflow-x-hidden"
+      className="relative flex size-full min-h-screen flex-col bg-white overflow-x-hidden"
       style={{ fontFamily: '"Plus Jakarta Sans", "Noto Sans", sans-serif' }}
     >
-      <div className="layout-container flex grow flex-col">
-        <div className="flex-1 justify-center py-4 px-4 sm:px-6 md:px-10">
-          <div className="layout-content-container flex flex-col max-w-full sm:max-w-[960px]">
-            <div className="flex flex-wrap justify-between gap-3 p-2 sm:p-4">
-              <p className="text-[#121516] text-2xl sm:text-[32px] font-bold">
-                My Account
-              </p>
+      <div className="layout-container flex h-full grow flex-col">
+        <div className="px-4 sm:px-6 md:px-10 flex flex-1 justify-center py-5">
+          <div className="layout-content-container flex flex-col max-w-[960px] flex-1">
+            <div className="flex flex-wrap justify-between gap-3 p-4">
+              <p className="text-[#121516] tracking-light text-[32px] font-bold leading-tight min-w-72">My Account</p>
             </div>
-            {error && <p className="text-red-500 text-center">{error}</p>}
-
-            {/* Personal Info */}
-            <h3 className="text-[#121516] text-lg sm:text-xl font-bold px-2 sm:px-4 pt-2 sm:pt-4">Personal Information</h3>
-            <div className="px-2 sm:px-4">
-              <p className="text-sm sm:text-base">Name: {userData.fullName || 'N/A'}</p>
-              <p className="text-sm sm:text-base">Email: {userData.email || 'N/A'}</p>
-              <p className="text-sm sm:text-base">Phone Number: {userData.phoneNumber || 'N/A'}</p>
+            {error && <p className="text-red-500 text-center px-4">{error}</p>}
+            <h3 className="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Personal Information</h3>
+            <div className="px-4">
+              <p className="text-[#121516] text-base font-normal leading-normal pb-3 pt-1">Name: {userData.fullName || 'N/A'}</p>
+              <p className="text-[#121516] text-base font-normal leading-normal pb-3 pt-1">Email: {userData.email || 'N/A'}</p>
+              <p className="text-[#121516] text-base font-normal leading-normal pb-3 pt-1">Phone Number: {userData.phoneNumber || 'N/A'}</p>
             </div>
-
-            {/* Orders */}
-            <h3 className="text-[#121516] text-lg sm:text-xl font-bold px-2 sm:px-4 pt-4">Order History</h3>
-            <div className="px-2 sm:px-4 py-2">
-              <div className="overflow-x-auto border rounded-xl">
-                <table className="w-full min-w-[600px]">
+            <h3 className="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Order History</h3>
+            <div className="px-4 py-3 @container">
+              <div className="flex overflow-hidden rounded-xl border border-[#dbe1e6] bg-white">
+                <table className="flex-1">
                   <thead>
                     <tr className="bg-white">
-                      <th className="px-4 py-3 text-left">Order ID</th>
-                      <th className="px-4 py-3 text-left">Date</th>
-                      <th className="px-4 py-3 text-left">Status</th>
-                      <th className="px-4 py-3 text-left">Amount</th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 px-4 py-3 text-left text-[#121516] w-[400px] text-sm font-medium leading-normal">
+                        Order ID
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 px-4 py-3 text-left text-[#121516] w-[400px] text-sm font-medium leading-normal">
+                        Date
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 px-4 py-3 text-left text-[#121516] w-60 text-sm font-medium leading-normal">
+                        Status
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 px-4 py-3 text-left text-[#121516] w-[400px] text-sm font-medium leading-normal">
+                        Amount
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {orders.map((order, index) => (
-                      <tr key={index} className="border-t">
-                        <td className="px-4 py-2 text-sm">{order.id}</td>
-                        <td className="px-4 py-2 text-sm">{formatDate(order.date)}</td>
-                        <td className="px-4 py-2 text-sm">
-                          <span className="bg-[#f0f3f4] px-3 py-1 rounded-full text-xs font-medium">
-                            {order.status}
-                          </span>
+                      <tr key={index} className="border-t border-t-[#dbe1e6]">
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">
+                          {order.id}
                         </td>
-                        <td className="px-4 py-2 text-sm">{order.amount}</td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">
+                          {formatDate(order.date)}
+                        </td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                          <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#f0f3f4] text-[#121516] text-sm font-medium leading-normal w-full">
+                            <span className="truncate">{order.status}</span>
+                          </button>
+                        </td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">
+                          {order.amount}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+              <style>
+                {`
+                  @container(max-width: 120px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 { display: none; }
+                  }
+                  @container(max-width: 240px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 { display: none; }
+                  }
+                  @container(max-width: 360px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 { display: none; }
+                  }
+                  @container(max-width: 480px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 { display: none; }
+                  }
+                `}
+              </style>
             </div>
-
-            {/* Subscriptions */}
-            <h3 className="text-[#121516] text-lg sm:text-xl font-bold px-2 sm:px-4 pt-4">Subscription</h3>
-            <div className="px-2 sm:px-4 py-2">
-              <div className="overflow-x-auto border rounded-xl">
-                <table className="w-full min-w-[600px]">
+            <h3 className="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Subscription</h3>
+            <div className="px-4 py-3 @container">
+              <div className="flex overflow-hidden rounded-xl border border-[#dbe1e6] bg-white">
+                <table className="flex-1">
                   <thead>
                     <tr className="bg-white">
-                      <th className="px-4 py-3 text-left">Subscription ID</th>
-                      <th className="px-4 py-3 text-left">Start Date</th>
-                      <th className="px-4 py-3 text-left">Status</th>
-                      <th className="px-4 py-3 text-left">Amount</th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 px-4 py-3 text-left text-[#121516] w-[400px] text-sm font-medium leading-normal">
+                        Subscription ID
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 px-4 py-3 text-left text-[#121516] w-[400px] text-sm font-medium leading-normal">
+                        Start Date
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 px-4 py-3 text-left text-[#121516] w-60 text-sm font-medium leading-normal">
+                        Status
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 px-4 py-3 text-left text-[#121516] w-[400px] text-sm font-medium leading-normal">
+                        Amount
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {subscriptions.map((sub, index) => (
-                      <tr key={index} className="border-t">
-                        <td className="px-4 py-2 text-sm">{sub.id}</td>
-                        <td className="px-4 py-2 text-sm">{formatDate(sub.startDate)}</td>
-                        <td className="px-4 py-2 text-sm">
-                          <span className="bg-[#f0f3f4] px-3 py-1 rounded-full text-xs font-medium">
-                            {sub.status}
-                          </span>
+                      <tr key={index} className="border-t border-t-[#dbe1e6]">
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">
+                          {sub.id}
                         </td>
-                        <td className="px-4 py-2 text-sm">{sub.amount}</td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">
+                          {formatDate(sub.startDate)}
+                        </td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 h-[72px] px-4 py-2 w-60 text-sm font-normal leading-normal">
+                          <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-8 px-4 bg-[#f0f3f4] text-[#121516] text-sm font-medium leading-normal w-full">
+                            <span className="truncate">{sub.status}</span>
+                          </button>
+                        </td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 h-[72px] px-4 py-2 w-[400px] text-[#617889] text-sm font-normal leading-normal">
+                          {sub.amount}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+              <style>
+                {`
+                  @container(max-width: 120px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 { display: none; }
+                  }
+                  @container(max-width: 240px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 { display: none; }
+                  }
+                  @container(max-width: 360px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 { display: none; }
+                  }
+                  @container(max-width: 480px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 { display: none; }
+                  }
+                `}
+              </style>
             </div>
-
-            {/* Logout */}
-            <h3 className="text-[#121516] text-lg sm:text-xl font-bold px-2 sm:px-4 pt-4">Account Settings</h3>
-            <div
-              className="flex items-center justify-between px-2 sm:px-4 py-3 cursor-pointer"
-              onClick={handleLogout}
-            >
-              <p className="text-sm sm:text-base">Log Out</p>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256">
-                <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z" />
-              </svg>
+            <h3 className="text-[#121516] text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Account Settings</h3>
+            <div className="flex items-center gap-4 bg-white px-4 min-h-14 justify-between cursor-pointer" onClick={handleLogout}>
+              <p className="text-[#121516] text-base font-normal leading-normal flex-1 truncate">Log Out</p>
+              <div className="shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                  <path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
