@@ -5,6 +5,7 @@ function MyAccount() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
   const [orders, setOrders] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]); // New state for subscriptions
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -60,7 +61,6 @@ function MyAccount() {
         const data = await res.json();
 
         if (res.ok) {
-          
           setOrders(data || []);
           console.log('Order Data:', data);
         } else {
@@ -74,6 +74,43 @@ function MyAccount() {
     };
 
     fetchOrders();
+  }, []);
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://water-can-backend.onrender.com';
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        console.error('No token found, redirecting to login...');
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const res = await fetch(`${backendUrl}/checkout/my-subscriptions`, { // Assume this endpoint
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          setSubscriptions(data || []);
+          console.log('Subscription Data:', data);
+        } else {
+          console.error('Error fetching subscriptions:', data.message || data.error);
+          setError(data.message || 'Unable to fetch subscriptions');
+        }
+      } catch (err) {
+        console.error('Fetch subscription error:', err.message);
+        setError('Something went wrong. Try again later.');
+      }
+    };
+
+    fetchSubscriptions();
   }, []);
 
   const handleLogout = () => {
@@ -147,6 +184,67 @@ function MyAccount() {
                         </td>
                         <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 h-[50px] sm:h-[72px] px-2 py-1 sm:px-4 sm:py-2 w-[100px] sm:w-[400px] text-[#617889] text-xs sm:text-sm font-normal leading-normal">
                           {order.amount}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <style>
+                {`
+                  @container(max-width: 120px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 { display: none; }
+                  }
+                  @container(max-width: 240px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 { display: none; }
+                  }
+                  @container(max-width: 360px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 { display: none; }
+                  }
+                  @container(max-width: 480px) {
+                    .table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 { display: none; }
+                  }
+                `}
+              </style>
+            </div>
+            <h3 className="text-[#121516] text-lg sm:text-xl font-bold leading-tight tracking-[-0.015em] px-2 sm:px-4 pb-2 pt-2 sm:pt-4">
+              Subscription
+            </h3>
+            <div className="px-2 sm:px-4 py-2 sm:py-3 @container">
+              <div className="overflow-x-auto rounded-xl border border-[#dbe1e6] bg-white">
+                <table className="w-full min-w-[600px]">
+                  <thead>
+                    <tr className="bg-white">
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 px-2 py-2 sm:px-4 sm:py-3 text-left text-[#121516] w-[100px] sm:w-[400px] text-xs sm:text-sm font-medium leading-normal">
+                        Subscription ID
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 px-2 py-2 sm:px-4 sm:py-3 text-left text-[#121516] w-[100px] sm:w-[400px] text-xs sm:text-sm font-medium leading-normal">
+                        Start Date
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 px-2 py-2 sm:px-4 sm:py-3 text-left text-[#121516] w-[80px] sm:w-60 text-xs sm:text-sm font-medium leading-normal">
+                        Status
+                      </th>
+                      <th className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 px-2 py-2 sm:px-4 sm:py-3 text-left text-[#121516] w-[100px] sm:w-[400px] text-xs sm:text-sm font-medium leading-normal">
+                        Amount
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(subscriptions || []).map((subscription, index) => (
+                      <tr key={index} className="border-t border-t-[#dbe1e6]">
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-120 h-[50px] sm:h-[72px] px-2 py-1 sm:px-4 sm:py-2 w-[100px] sm:w-[400px] text-[#617889] text-xs sm:text-sm font-normal leading-normal">
+                          {subscription.id}
+                        </td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-240 h-[50px] sm:h-[72px] px-2 py-1 sm:px-4 sm:py-2 w-[100px] sm:w-[400px] text-[#617889] text-xs sm:text-sm font-normal leading-normal">
+                          {subscription.startDate}
+                        </td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-360 h-[50px] sm:h-[72px] px-2 py-1 sm:px-4 sm:py-2 w-[80px] sm:w-60 text-xs sm:text-sm font-normal leading-normal">
+                          <button className="flex min-w-[60px] sm:min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-6 sm:h-8 px-2 sm:px-4 bg-[#f0f3f4] text-[#121516] text-xs sm:text-sm font-medium leading-normal w-full">
+                            <span className="truncate">{subscription.status}</span>
+                          </button>
+                        </td>
+                        <td className="table-3bb596e1-1bf8-494a-b1e5-70e45a551698-column-480 h-[50px] sm:h-[72px] px-2 py-1 sm:px-4 sm:py-2 w-[100px] sm:w-[400px] text-[#617889] text-xs sm:text-sm font-normal leading-normal">
+                          {subscription.amount}
                         </td>
                       </tr>
                     ))}
