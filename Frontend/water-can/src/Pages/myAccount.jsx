@@ -82,11 +82,11 @@ function MyAccount() {
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://water-can-backend.onrender.com';
-      const token = localStorage.getItem('token');
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+      const token = localStorage.getItem("token");
 
       if (!token) {
-        navigate('/login');
+        navigate("/login");
         return;
       }
 
@@ -94,7 +94,7 @@ function MyAccount() {
         const res = await fetch(`${backendUrl}/checkout/my-subscriptions`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         });
 
@@ -103,10 +103,10 @@ function MyAccount() {
         if (res.ok) {
           setSubscriptions(data || []);
         } else {
-          setError(data.message || 'Unable to fetch subscriptions');
+          setError(data.message || "Unable to fetch subscriptions");
         }
       } catch (err) {
-        setError('Something went wrong. Try again later.');
+        setError("Something went wrong. Try again later.");
       }
     };
 

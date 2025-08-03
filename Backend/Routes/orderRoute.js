@@ -8,17 +8,17 @@ router.get("/my-orders", authMiddleware, async (req, res) => {
   try {
     console.log("Fetching orders for user:", req.userId);
     const allOrders = await Order.find({});
-console.log("All orders:", allOrders); // Log userId
+    console.log("All orders:", allOrders); // Log userId
 
     const orders = await Order.find({ userId: req.userId }).sort({ createdAt: -1 });
-     const mappedOrders = orders.map((order) =>(
+    const mappedOrders = orders.map((order) => (
       {
-        id:order._id,
+        id: order._id,
         date: order.createdAt,
         status: order.status || "Processing",
         amount: order.total
-       }
-     ) );
+      }
+    ));
     res.status(200).json(mappedOrders);
   } catch (err) {
     console.error("Failed to fetch orders:", err);

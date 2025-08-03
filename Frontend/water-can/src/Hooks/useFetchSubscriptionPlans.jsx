@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 
 const useFetchSubscriptionPlans = () => {
@@ -8,32 +7,44 @@ const useFetchSubscriptionPlans = () => {
 
   useEffect(() => {
     async function fetchPlans() {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com";
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        setError("No authentication token found. Please log in.");
+        setLoading(false);
+        return;
+      }
 
       try {
         setLoading(true);
-        const res = await fetch(`${backendUrl}/subscription/plans`);
-        
+        const res = await fetch(`${backendUrl}/checkout/subscription-plans`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
-        
+
         const data = await res.json();
         setPlans(data);
         setError(null);
       } catch (err) {
-        console.log("Error fetching subscription plans:", err.message);
-        setError(err.message);
-        setPlans([]); // Empty array if API fails
+        console.error("Error fetching subscription plans:", err.message);
+        setError(err.message || "Failed to fetch subscription plans");
+        setPlans([]); // Reset to empty array on error
       } finally {
         setLoading(false);
       }
     }
 
     fetchPlans();
-  }, []);
+  }, []); // Empty dependency array for one-time fetch
 
   return { plans, loading, error };
 };
 
-export default useFetchSubscriptionPlans; 
+export default useFetchSubscriptionPlans;
