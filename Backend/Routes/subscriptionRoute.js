@@ -16,7 +16,6 @@ router.get("/my-subscription", authMiddleware, async (req, res) => {
                 startDate: sub.startDate,
                 status: sub.status,
                 total: sub.total
-
             }
 
         ))
@@ -28,7 +27,36 @@ router.get("/my-subscription", authMiddleware, async (req, res) => {
 })
 
 router.post("/", authMiddleware, async (req,res) => {
-    console.log(req.body)
+    try{
+        const {name,email,phone,address,notes,planDetails,status,startDate,endDate} = req.body;
+
+    if(!name || !phone || !email || !address || !planDetails || !notes || !status){
+        return res.status(400).json({message: "Missing Required Fields"})
+    }
+
+    const newSubscription = new Subscription({
+        userId:req.userId,
+        name,
+        email,
+        phone,
+        address,
+        notes,
+        planDetails,
+        status,
+        startDate,
+        endDate
+    })
+
+    await newSubscription.save();
+
+    res.status(201).json({
+        message: "Order Placed Successfully",
+        subscription: newSubscription
+    })
+}catch(err){
+    console.error("Error Placing Subscription:", err);
+    res.status(500).json({message: "Failed to place Subscription" })
+}
 })
 
 module.exports = router;

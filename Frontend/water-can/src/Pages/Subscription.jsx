@@ -8,7 +8,7 @@ function SubscriptionPage() {
 
   const handleChoosePlan = (plan) => {
     localStorage.setItem("selectedSubcriptionPlan", JSON.stringify(plan));
-    navigate("/subscription/my-subscription");
+    navigate("/subscription");
   }
 
   if (loading) {
