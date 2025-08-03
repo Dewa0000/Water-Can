@@ -91,7 +91,7 @@ function MyAccount() {
       }
 
       try {
-        const res = await fetch(`${backendUrl}/checkout/my-subscriptions`, {
+        const res = await fetch(`${backendUrl}/checkout/my-subscription`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
