@@ -18,7 +18,7 @@ const useFetchSubscriptionPlans = () => {
 
       try {
         setLoading(true);
-        const res = await fetch(`${backendUrl}/checkout/subscription-plans`, {
+        const res = await fetch(`${backendUrl}/subscription/my-subscription`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
