@@ -27,4 +27,8 @@ router.get("/my-subscription", authMiddleware, async (req, res) => {
     }
 })
 
+router.post("/", authMiddleware, async (req,res) => {
+    console.log(req.body)
+})
+
 module.exports = router;
