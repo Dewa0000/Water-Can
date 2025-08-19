@@ -31,7 +31,7 @@ function Signup() {
       setError('Please agree to the Terms and Conditions');
       return;
     }
-                     const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://water-can-backend.onrender.com/";
 
     try {
       const response = await fetch(`${backendUrl}/signup`, {
