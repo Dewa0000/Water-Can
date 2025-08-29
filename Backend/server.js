@@ -34,7 +34,7 @@ app.use("/signup", Signup);
 app.use("/api/user", Login);
 app.use("/auth", require("./Routes/authRoute"))
 app.use("/subscription", Subscription);
-app.use("/checkout",  );
+
 
 
 const PORT = process.env.PORT || 5000;
